@@ -4,15 +4,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatStepperModule} from '@angular/material/stepper';
 import {WebcamModule} from 'ngx-webcam';
 import {
-  MatIconModule,
   MatButtonModule,
   MatInputModule,
   MatTableModule,
   MatDividerModule,
   MatListModule,
   MatSnackBarModule,
+  MatIconModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -50,13 +52,15 @@ const routes: Routes = [
     MatTableModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
     MatDividerModule,
     MatListModule,
     MatSnackBarModule,
     WebcamModule,
+    MatIconModule,
+        MatProgressBarModule,
+            MatStepperModule,
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule],

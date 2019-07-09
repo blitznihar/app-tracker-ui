@@ -7,7 +7,6 @@ export interface PeriodicElement {
   name: string;
   position: string;
   status: string;
-  step: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -32,7 +31,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./bill-list.component.css']
 })
 export class BillListComponent {
-  displayedColumns: string[] = ['position', 'name', 'status', 'step', 'progress'];
+  displayedColumns: string[] = ['position', 'name', 'status', 'progress'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   applyFilter(filterValue: string) {

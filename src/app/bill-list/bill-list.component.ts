@@ -10,7 +10,7 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 'E4324234', name: 'Mark', status: 'New Business', step: '11'},
+  {position: 'E4324234', name: 'Mark', status: 'New Business', step: '11' },
   {position: 'G4324234', name: 'Don', status: 'Payment Pending', step: '19'},
   {position: 'PF324234', name: 'Michelle', status: 'Customer', step: '01'},
   {position: 'D4324234', name: 'Berry', status: 'Agent', step: '2'},

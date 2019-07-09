@@ -1,0 +1,117 @@
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-3">Remittance/Payment</h1>
+    <p class="lead">Validate records and upload check!</p>
+  </div>
+</div>
+<div *ngIf="showSelected">
+	<mat-table class="table-margin-bottom" #table [dataSource]="dataSource">
+		<ng-container matColumnDef="policyno">
+			<mat-header-cell *matHeaderCellDef> Policy No</mat-header-cell>
+			<mat-cell *matCellDef="let row">
+				<mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+					<input matInput [formControl]="row.validator.controls['policyno']" [readonly]="!row.editing" placeholder="Policyno" [(ngModel)]="row.currentData.policyno">
+      </mat-form-field>
+    </mat-cell>
+    <mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+        <input matInput [formControl]="row.validator.controls['name']" [readonly]="!row.editing" placeholder="Name" [(ngModel)]="row.currentData.name">
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="employeeid">
+    <mat-header-cell *matHeaderCellDef> Employee Id </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+        <input matInput [formControl]="row.validator.controls['employeeid']" type="string" placeholder="Employee Id" [(ngModel)]="row.currentData.employeeid">
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="payment">
+    <mat-header-cell *matHeaderCellDef> Payment </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+        <input matInput [formControl]="row.validator.controls['payment']" type="number" placeholder="Payment" [(ngModel)]="row.currentData.payment" data-blur-currency>
+      </mat-form-field>
+    </mat-cell>
+     <mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </mat-footer-cell>
+  </ng-container>
+  <ng-container matColumnDef="actionsColumn">
+    <mat-header-cell *matHeaderCellDef>
+      <button mat-icon-button color="accent" (click)="dataSource.createNew()"><i class="fa fa-plus mat-icon"></i></button>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <button *ngIf="!row.editing" mat-icon-button color="primary" focusable="false" (click)="row.startEdit()">
+            <i class="fa fa-pencil mat-icon"></i>
+          </button>
+      <button *ngIf="row.editing" mat-icon-button color="primary" focusable="false" (click)="row.confirmEditCreate()">
+            <i class="fa fa-check mat-icon"></i>
+          </button>
+      <button mat-icon-button color="primary" focusable="false" (click)="row.cancelOrDelete()">
+            <i class="fa fa-times mat-icon"></i>
+          </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  <!-- <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row> -->
+</mat-table>
+<mat-divider></mat-divider>
+<div class="example-container">
+ <h3>Total Expected Payment:   <span class="badge badge-secondary">{{getTotalCost()| currency}}</span></h3>
+</div>
+<div class="example-container">
+<button mat-button (click)="toggleWebcam()">Scan Check</button>
+</div>
+<mat-divider></mat-divider>
+<div style="text-align:center">
+	<div>
+		<webcam [height]="300" [width]="800" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+		 [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+		 (initError)="handleInitError($event)"></webcam>
+		<br/>
+		<div class="actionBtn" (click)="triggerSnapshot();" title="Take Picture" *ngIf="showWebcam">📸</div>
+		<div class="actionBtn" (click)="showNextWebcam(true);" title="Switch Camera" *ngIf="showWebcam">🔁</div>
+	</div>
+</div>
+<div class="snapshot" *ngIf="webcamImage">
+	<img [src]="webcamImage.imageAsDataUrl" />
+</div>
+<mat-divider></mat-divider>
+<h4 *ngIf="errors.length > 0">Messages:</h4>
+<ul *ngFor="let error of errors">
+	<li>{{error | json}}</li>
+</ul>
+
+<div class="example-container">
+ <mat-form-field>
+  <input matInput value="" placeholder="Routing Number" ng-required/>
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput value="" placeholder="Account Number" ng-required/>
+</mat-form-field>
+
+<button mat-button (click)="HideButton()">Submit Payment</button>
+</div>
+</div>
+<div *ngIf="!showSelected">
+      <div class="alert alert-success alert-dismissible fade show">
+        <strong>Success!</strong> Your Payment information sent successfully.<br>
+        Please send the check to below address:
+        <address>
+        Box 564, Vermont<br>
+        USA
+        </address>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="ShowButton()">back</button>
+    <a routerLinkActive="active" routerLink="/bill-list" class="btn btn-success">Done</a>
+    
+</div>
